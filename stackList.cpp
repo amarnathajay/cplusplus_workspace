@@ -10,14 +10,26 @@ using namespace std;
 
 #define LENGTH 5
 
-class StackArray
+//Create the structure for the node in the linked list
+struct node
+{
+	float value;
+	struct node *next;
+};
+
+class StackList
 {
         int top;
+	struct node *topNode;
 public:
         float stack[LENGTH];
 
         //Use a constructor to initialize the value for the top variable, -1 denotes that the stack is empty
-        StackArray() { top = -1; }
+        StackList() 
+	{ 
+		top = 0;
+		topNode = NULL; 
+	}
         void push(float x);
         int pop();
         bool isEmpty();
@@ -25,23 +37,23 @@ public:
         int topVariable();
 };
 
-void StackArray::push(float x)
+void StackList::push(float x)
 {
-        if((top + 1) >= LENGTH)
-        {
-		//Check if full
-                cout << "The stack is full, Overflow. Number not pushed on to the stack" << endl;
-        }
-
-        else
-        {
-                //Insert logic to push on to stack
-        }
+	float value;
+	struct node *p;
+	p = new node;
+	p->value = x;
+	p->next = NULL;
+	if(topNode != NULL)
+		p->next = topNode;
+	topNode = p;
+	top = top + 1;
 }
 
-int StackArray::pop()
+int StackList::pop()
 {
-        if (top < 0)
+	struct node *temp;
+        if (topNode == NULL)
         {
                 cout << "The stack is empty, Underflow. Number not popped off the stack" << endl;
                 return 0;
@@ -49,33 +61,48 @@ int StackArray::pop()
         else
         {
                 //Enter logic to pop off stack
+		temp = topNode;
+		topNode = topNode->next;
+		float x;
+		x = temp->value;
+		delete temp;
+		top = top - 1;
                 return x;
         }
 }
 
-bool StackArray::isEmpty()
+bool StackList::isEmpty()
 {
         //Check if empty logic
+	if (topNode == NULL)
+        {
+                cout << "The stack is empty" << endl;
+                return true;
+        }
+	else
+		return false;
 }
 
-void StackArray::printStack()
+void StackList::printStack()
 {
-        if(top < 0)
+	struct node *p = topNode;
+        if(topNode == NULL)
         {
                 cout << "Stack is Empty" << endl;
         }
         else
         {
-                for(int i = 0; i <= top; i++)
-                {
-                        cout << stack[i] << endl;
-                }
+                while(p != NULL)
+		{
+			cout << p->value << endl;
+			p = p->next;
+		}
                 cout << endl;
         }
 }
 
 
-int StackArray::topVariable()
+int StackList::topVariable()
 {
         return top;
 }
@@ -83,7 +110,7 @@ int StackArray::topVariable()
 
 int main()
 {
-        StackArray s;
+        StackList s;
         for(;;)
         {
                 cout << "1. Push" << endl << "2. Pop" << endl << "3. Check if empty" << endl << "4. Print the stack" << endl << "5. Current length of stack" << endl << "0. Exit" << endl << endl;
@@ -113,7 +140,7 @@ int main()
 
                         case 5: {cout << "Current length of stack selected" << endl;
                         int len = s.topVariable();
-                        cout << len + 1 << endl;
+                        cout << len << endl;
                         }break;
 
                         default: { exit(0); }

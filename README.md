@@ -8,11 +8,9 @@ Contents:
 
 The major programs written in this workspace are as follows: 
 
-Stacks
 stack.cpp -> Array implementation of a stack  
 stackList.cpp -> Linked List implementation of a stack
 
-Queues  
 |__queueArray.cpp -> Array implementation of a queue  
 |__queueLinkedList -> Linked List implementation of a queue  
 _____________________________________________________________________________________________
